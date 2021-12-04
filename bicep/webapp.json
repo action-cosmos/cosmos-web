@@ -1,0 +1,43 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "name": {
+      "value": "azureCosmosWeb"
+    },
+    "sku": {
+      "value": "Free"
+    },
+    "skucode": {
+      "value": "Free"
+    },
+    "repositoryUrl": {
+      "value": "https://github.com/action-cosmos/cosmos-web.git"
+    },
+    "branch": {
+      "value": "master"
+    },
+    "repositoryToken": {
+      "value": ""
+    },
+    "appLocation": {
+      "value": "/"
+    },
+    "apiLocation": {
+      "value": ""
+    },
+    "appArtifactLocation": {
+      "value": "/"
+    },
+    "appSettings": {
+      "value": ""
+    },
+    "resourceTags": {
+      "value": {
+        "Environment": "Development",
+        "Project": "action-cosmos",
+        "ApplicationName": "action-cosmos"
+      }
+    }
+  }
+}
