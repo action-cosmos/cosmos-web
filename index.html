@@ -1,0 +1,113 @@
+<html>
+<meta>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css" />
+</meta>
+
+<head>
+    <title>action-cosmos</title>
+</head>
+
+<body>
+    <h1 class="title">action-cosmos</h1>
+
+    <div class="control">
+        <label class="radio" id="kakao-radio">
+            <input type="radio" name="rsvp" checked>
+            카카오 워크
+        </label>
+        <label class="radio" id="line-radio">
+            <input type="radio" name="rsvp">
+            라인
+        </label>
+    </div>
+
+    <form class="box">
+        <div id="kakao-message-provider">
+            <label class="label">카카오 워크</label>
+            <br>
+            <div class="field">
+                <label class="label">앱 키</label>
+                <div class="control">
+                    <input class="input" id="kakao_app_key" type="password" placeholder="앱키를 입력해주세요">
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">채널 ID</label>
+                <input class="input" id="kakao_channel_id" type="password" placeholder="채널ID를 입력해주세요">
+            </div>
+
+            <div class="button is-primary" id="kakao-work-button">등록</div>
+
+            <div>
+                카카오 워크와 연동이 필요하다면?
+                <br />
+                https://docs.kakaoi.ai/kakao_work/
+            </div>
+        </div>
+
+        <div id="line-message-provider" style="display: none;">
+            <label class="label">라인</label>
+            <br>
+            <div class="field">
+                <label class="label">앱 키</label>
+                <div class="control">
+                    <input class="input" id="kakao_app_key" type="password" placeholder="앱키를 입력해주세요">
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">채널 ID</label>
+                <input class="input" id="kakao_channel_id" type="password" placeholder="채널ID를 입력해주세요">
+            </div>
+
+            <div class="button is-primary" id="line-button">등록</div>
+        </div>
+    </form>
+
+</body>
+
+<script>
+    document.getElementById('kakao-radio').addEventListener('click', function (event) {
+        document.getElementById('line-message-provider').style.display = "none";
+        document.getElementById('kakao-message-provider').style.display = "";
+    })
+
+    document.getElementById('line-radio').addEventListener('click', function (event) {
+        document.getElementById('line-message-provider').style.display = "";
+        document.getElementById('kakao-message-provider').style.display = "none";
+    })
+
+    document.getElementById('kakao-work-button').addEventListener('click', function (event) {
+        let kakaoAppKey = document.getElementById('kakao_app_key').value
+        let kakaoChannelId = document.getElementById('kakao_channel_id').value
+
+        let data = { message_type: 'kakao', kakao_app_key: kakaoAppKey, kakao_channel_id: kakaoChannelId }
+
+        postOption(data)
+    })
+
+    document.getElementById('line-button').addEventListener('click', function (event) {
+        let lineAppKey = document.getElementById('line_app_key').value
+        let lineChannelId = document.getElementById('line_channel_id').value
+
+        let data = { message_type: 'line', line_app_key: lineAppKey, kakao_channel_id: lineChannelId }
+
+        postOption(data)
+    })
+
+    function postOption(data) {
+        fetch('http://127.0.0.1:3030/options', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(function (response) {
+            response.json();
+        }).catch(function (error) {
+        })
+    }
+</script>
+
+</html>
