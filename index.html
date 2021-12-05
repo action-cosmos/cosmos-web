@@ -16,9 +16,9 @@
             <input type="radio" name="rsvp" checked>
             카카오 워크
         </label>
-        <label class="radio" id="line-radio">
+        <label class="radio" id="slack-radio">
             <input type="radio" name="rsvp">
-            라인
+            슬랙
         </label>
     </div>
 
@@ -47,22 +47,16 @@
             </div>
         </div>
 
-        <div id="line-message-provider" style="display: none;">
-            <label class="label">라인</label>
+        <div id="slack-message-provider" style="display: none;">
+            <label class="label">슬랙</label>
             <br>
             <div class="field">
-                <label class="label">앱 키</label>
+                <label class="label">웹훅 URL</label>
                 <div class="control">
-                    <input class="input" id="kakao_app_key" type="password" placeholder="앱키를 입력해주세요">
+                    <input class="input" id="slack_webhook_url" placeholder="슬랙 웹훅 URL을 입력해주세요">
                 </div>
             </div>
-
-            <div class="field">
-                <label class="label">채널 ID</label>
-                <input class="input" id="kakao_channel_id" type="password" placeholder="채널ID를 입력해주세요">
-            </div>
-
-            <div class="button is-primary" id="line-button">등록</div>
+            <div class="button is-primary" id="slack-button">등록</div>
         </div>
     </form>
 
@@ -70,12 +64,12 @@
 
 <script>
     document.getElementById('kakao-radio').addEventListener('click', function (event) {
-        document.getElementById('line-message-provider').style.display = "none";
+        document.getElementById('slack-message-provider').style.display = "none";
         document.getElementById('kakao-message-provider').style.display = "";
     })
 
-    document.getElementById('line-radio').addEventListener('click', function (event) {
-        document.getElementById('line-message-provider').style.display = "";
+    document.getElementById('slack-radio').addEventListener('click', function (event) {
+        document.getElementById('slack-message-provider').style.display = "";
         document.getElementById('kakao-message-provider').style.display = "none";
     })
 
@@ -88,11 +82,10 @@
         postOption(data)
     })
 
-    document.getElementById('line-button').addEventListener('click', function (event) {
-        let lineAppKey = document.getElementById('line_app_key').value
-        let lineChannelId = document.getElementById('line_channel_id').value
+    document.getElementById('slack-button').addEventListener('click', function (event) {
+        let slackWebhookUrl = document.getElementById('slack_webhook_url').value
 
-        let data = { message_type: 'line', line_app_key: lineAppKey, kakao_channel_id: lineChannelId }
+        let data = { message_type: 'slack', slack_webhook_url: slackWebhookUrl }
 
         postOption(data)
     })
@@ -101,7 +94,8 @@
         fetch('https://functionapp-slacktrigger-westus3.azurewebsites.net/api/OptionTrigger', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'fake-token'
             },
             body: JSON.stringify(data)
         }).then(function (response) {
